@@ -106,5 +106,292 @@
     "signed_in": false,
     "current_product_id": null,
     "usage": null
+  },
+  {
+    "time": "2026-10-07T21:13:02+00:00",
+    "event": "tool_call",
+    "tool": "list_categories",
+    "args": {},
+    "result": "6 result(s)",
+    "conversation_id": "7pQupx8OAQyWaTPE"
+  },
+  {
+    "time": "2026-10-07T21:13:04+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "7pQupx8OAQyWaTPE",
+    "message": "What categories do you sell?",
+    "reply_chars": 77,
+    "tool_calls": 1,
+    "products_returned": 0,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 2,
+      "input_tokens": 7324,
+      "output_tokens": 38,
+      "tool_calls": 1
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:08+00:00",
+    "event": "tool_call",
+    "tool": "browse_category",
+    "args": {
+      "category": "Jackets"
+    },
+    "result": "8: Benjamin Franklin Fleece Jacket, Berkeley Sweater Fleece Jacket, Brooks Brothers Bomber Jacket Yale",
+    "conversation_id": "GLLub51g08lwsxwX"
+  },
+  {
+    "time": "2026-10-07T21:13:09+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "GLLub51g08lwsxwX",
+    "message": "Show me your jackets",
+    "reply_chars": 314,
+    "tool_calls": 1,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 2,
+      "input_tokens": 8043,
+      "output_tokens": 99,
+      "tool_calls": 1
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:12+00:00",
+    "event": "tool_call",
+    "tool": "search_products",
+    "args": {
+      "query": "Champion Full Zip Hood"
+    },
+    "result": "8: Champion Full Zip Hood, Brooks Brothers Double Knit Full Zip Hoodie Yale, Champion Reverse Weave Hoodie 1",
+    "conversation_id": "JMt-uCzq8W-wntIw"
+  },
+  {
+    "time": "2026-10-07T21:13:14+00:00",
+    "event": "tool_call",
+    "tool": "get_product_price",
+    "args": {
+      "product_id": "champion-full-zip-hood"
+    },
+    "result": {
+      "product_name": "Champion Full Zip Hood",
+      "price": 88.0,
+      "found": true,
+      "note": "Champion Full Zip Hood is $88."
+    },
+    "conversation_id": "JMt-uCzq8W-wntIw"
+  },
+  {
+    "time": "2026-10-07T21:13:15+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "JMt-uCzq8W-wntIw",
+    "message": "How much is the Champion Full Zip Hood?",
+    "reply_chars": 38,
+    "tool_calls": 2,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 3,
+      "input_tokens": 12650,
+      "output_tokens": 107,
+      "tool_calls": 2
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:18+00:00",
+    "event": "tool_call",
+    "tool": "search_products",
+    "args": {
+      "query": "Boola Boola T Shirt"
+    },
+    "result": "8: Boola Boola T Shirt, 2025 Yale Vs Harvard T Shirt, Benjamin Franklin T Shirt",
+    "conversation_id": "FLveGjeusDOYmiXB"
+  },
+  {
+    "time": "2026-10-07T21:13:19+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "FLveGjeusDOYmiXB",
+    "message": "What colors does the Boola Boola T Shirt come in?",
+    "reply_chars": 63,
+    "tool_calls": 1,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 2,
+      "input_tokens": 8011,
+      "output_tokens": 65,
+      "tool_calls": 1
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:22+00:00",
+    "event": "tool_call",
+    "tool": "search_products",
+    "args": {
+      "query": "Basic Hoodie Big Yale"
+    },
+    "result": "8: Basic Hoodie Big Yale, Brooks Brothers Double Knit Full Zip Hoodie Yale, Yale Aunt Hoodie",
+    "conversation_id": "kY1j_ZKqQ-D140My"
+  },
+  {
+    "time": "2026-10-07T21:13:24+00:00",
+    "event": "tool_call",
+    "tool": "check_size_stock",
+    "args": {
+      "product_id": "basic-hoodie-big-yale",
+      "size": "XS"
+    },
+    "result": {
+      "product_name": "Basic Hoodie Big Yale",
+      "found": true,
+      "in_stock": true,
+      "size": "XS",
+      "quantity": 15,
+      "note": "15 in stock in XS."
+    },
+    "conversation_id": "kY1j_ZKqQ-D140My"
+  },
+  {
+    "time": "2026-10-07T21:13:26+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "kY1j_ZKqQ-D140My",
+    "message": "Do you have the Basic Hoodie Big Yale in XS?",
+    "reply_chars": 79,
+    "tool_calls": 2,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 3,
+      "input_tokens": 12537,
+      "output_tokens": 115,
+      "tool_calls": 2
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:29+00:00",
+    "event": "tool_call",
+    "tool": "search_products",
+    "args": {
+      "query": "Baseball Left Chest Crewneck"
+    },
+    "result": "8: Baseball Left Chest Crewneck, Diving Left Chest Crewneck, Lacrosse Left Chest Crewneck",
+    "conversation_id": "1ZbIKaZ6nNHztvnt"
+  },
+  {
+    "time": "2026-10-07T21:13:31+00:00",
+    "event": "tool_call",
+    "tool": "check_size_stock",
+    "args": {
+      "product_id": "baseball-left-chest-crewneck",
+      "size": "XL"
+    },
+    "result": {
+      "product_name": "Baseball Left Chest Crewneck",
+      "found": true,
+      "in_stock": false,
+      "size": "XL",
+      "quantity": 0,
+      "note": "Out of stock in XL."
+    },
+    "conversation_id": "1ZbIKaZ6nNHztvnt"
+  },
+  {
+    "time": "2026-10-07T21:13:32+00:00",
+    "event": "tool_call",
+    "tool": "find_similar_products",
+    "args": {
+      "product_id": "baseball-left-chest-crewneck",
+      "size": "XL"
+    },
+    "result": "3: Davenport College Crewneck, Squash Left Chest Tennis, Yale Cousin Crewneck",
+    "conversation_id": "1ZbIKaZ6nNHztvnt"
+  },
+  {
+    "time": "2026-10-07T21:13:34+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "1ZbIKaZ6nNHztvnt",
+    "message": "I want the Baseball Left Chest Crewneck in XL",
+    "reply_chars": 208,
+    "tool_calls": 3,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 4,
+      "input_tokens": 17385,
+      "output_tokens": 167,
+      "tool_calls": 3
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:37+00:00",
+    "event": "tool_call",
+    "tool": "search_products",
+    "args": {
+      "query": "Benjamin Franklin Fleece Jacket"
+    },
+    "result": "8: Benjamin Franklin Fleece Jacket, Berkeley Sweater Fleece Jacket, Saybrook Sweater Fleece Jacket",
+    "conversation_id": "P0blmgLwqMbuZYd-"
+  },
+  {
+    "time": "2026-10-07T21:13:39+00:00",
+    "event": "tool_call",
+    "tool": "get_product_details",
+    "args": {
+      "product_id": "benjamin-franklin-fleece-jacket"
+    },
+    "result": {
+      "price": 98.0,
+      "in_stock": true
+    },
+    "conversation_id": "P0blmgLwqMbuZYd-"
+  },
+  {
+    "time": "2026-10-07T21:13:41+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "P0blmgLwqMbuZYd-",
+    "message": "Tell me everything about the Benjamin Franklin Fleece Jacket",
+    "reply_chars": 434,
+    "tool_calls": 2,
+    "products_returned": 6,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 3,
+      "input_tokens": 12709,
+      "output_tokens": 295,
+      "tool_calls": 2
+    }
+  },
+  {
+    "time": "2026-10-07T21:13:43+00:00",
+    "event": "run_end",
+    "stop_reason": "completed",
+    "conversation_id": "NVUt25mAjs7I5fi2",
+    "message": "Write me a poem about Harvard",
+    "reply_chars": 128,
+    "tool_calls": 0,
+    "products_returned": 0,
+    "signed_in": false,
+    "current_product_id": null,
+    "usage": {
+      "requests": 1,
+      "input_tokens": 3627,
+      "output_tokens": 32,
+      "tool_calls": 0
+    }
   }
 ]
