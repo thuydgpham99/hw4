@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import threading
 from datetime import datetime, timezone
 from pathlib import Path
@@ -30,8 +31,28 @@ _LOCK = threading.Lock()
 MAX_FIELD_CHARS = 220
 
 
+# Shoppers sometimes type things they should not, and the prompt tells the agent
+# to refuse them — but the message still passes through this logger on its way to
+# disk. These patterns are masked before anything is written. The log cannot tell
+# a test card number from a real one, so it stores neither.
+_REDACTIONS = (
+    # 13–19 digit card-like runs, with or without spaces/dashes
+    (re.compile(r"\b(?:\d[ -]?){13,19}\b"), "[redacted-card]"),
+    # US-style SSN
+    (re.compile(r"\b\d{3}-\d{2}-\d{4}\b"), "[redacted-ssn]"),
+    # Long opaque tokens: sk-..., ghp_..., and similar
+    (re.compile(r"\b(?:sk|pk|ghp|gho|xox[bp])[-_][A-Za-z0-9]{16,}\b"), "[redacted-token]"),
+)
+
+
+def _redact(text: str) -> str:
+    for pattern, replacement in _REDACTIONS:
+        text = pattern.sub(replacement, text)
+    return text
+
+
 def _clip(value: Any) -> Any:
-    """Shorten a value for the trail without losing what it was."""
+    """Shorten a value for the trail, redacting anything that should not persist."""
     if value is None:
         return None
     if isinstance(value, (int, float, bool)):
@@ -43,7 +64,7 @@ def _clip(value: Any) -> Any:
         if len(value) > 3:
             clipped.append(f"… +{len(value) - 3} more")
         return clipped
-    text = str(value)
+    text = _redact(str(value))
     return text if len(text) <= MAX_FIELD_CHARS else text[:MAX_FIELD_CHARS] + "…"
 
 

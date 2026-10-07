@@ -146,3 +146,12 @@ What was lacking before this problem: Problem 10's follow-up prompt had not been
 **Follow-up:** _None yet._
 
 ---
+
+## Problem 13: Push to GitHub and submit the URL
+
+**Prompt 1:**
+> Problem 13: push to GitHub and submit the URL. Put your code in a folder name hw4 and push it to a PUBLIC GitHub repository. Remember that I need to submit the repo URL )the link graders can open and clone). Do NOT put your real .env, campus_customs.db, or product images in the GitHub repo. Use .gitignore. include .env.example with placeholders only. This is the expected file layout.
+
+**Follow-up:** _None yet._
+
+---

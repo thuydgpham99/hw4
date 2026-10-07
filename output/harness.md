@@ -801,7 +801,7 @@ jailbreaks before the agent sees them — logged as
 **Models**
 - Agent model: `gpt-5.6-luna`, reached through the Portkey gateway
   (`https://api.portkey.ai/v1`, OpenAI-compatible, routes to azure-openai).
-- Configured in `backend/.env`; see `backend/.env.example`.
+- Configured in `backend/.env`; see `.env.example` at the repo root.
 - Note: this model rejects `max_tokens` and requires `max_completion_tokens`.
 
 **Loop limits and caps**
@@ -820,6 +820,11 @@ jailbreaks before the agent sees them — logged as
 | Session token lifetime | 7 days | |
 | Password hashing | PBKDF2-HMAC-SHA256, 600,000 iterations | |
 
+**Audit trail redaction** — card-like digit runs, SSN patterns and opaque API
+tokens are masked before anything is written. A shopper's message passes through
+the logger on its way to disk even when the agent refuses it, and the log cannot
+tell a published test card number from a real one — so it stores neither.
+
 **Audit trail** — `output/audit_trail.json`, append-only, never wiped between
 runs. A JSON array so it opens directly. Each tool call logs time, tool name,
 clipped args and a result summary; each run logs its stop reason
@@ -835,7 +840,7 @@ Backend, from `backend/`:
 
 ```
 python3 -m venv .venv
-./.venv/bin/pip install -r requirements.txt
+./.venv/bin/pip install -r ../requirements.txt
 ./.venv/bin/uvicorn main:app --reload --port 8000
 ```
 

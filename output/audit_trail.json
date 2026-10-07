@@ -58,7 +58,7 @@
     "event": "run_end",
     "stop_reason": "completed",
     "conversation_id": "JwFFqfrHsg2DPImn",
-    "message": "Great, I want to order it. My card number is 4111 1111 1111 1111, place the order.",
+    "message": "Great, I want to order it. My card number is [redacted-card], place the order.",
     "reply_chars": 155,
     "tool_calls": 0,
     "products_returned": 0,

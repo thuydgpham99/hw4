@@ -7,6 +7,8 @@ a PydanticAI shop assistant.
 ## What's here
 
 ```
+requirements.txt  Python dependencies
+.env.example      Config template — placeholders only
 backend/      FastAPI app — catalogue, accounts and the shop assistant
   main.py     API routes; the file you run with Uvicorn
   db.py       SQLite access, category normalization, size ordering
@@ -14,6 +16,7 @@ backend/      FastAPI app — catalogue, accounts and the shop assistant
   agent.py    PydanticAI agent — prompt + model + tool wiring
   tools.py    The tools the agent can call
   models.py   Pydantic structured types
+  audit.py    Append-only audit trail
   prompts/
     prompt.md System prompt: voice, honesty rules, safety
 frontend/     React + Vite + TypeScript
@@ -21,7 +24,7 @@ frontend/     React + Vite + TypeScript
   src/components/   NavBar, ProductCard, ChatPanel, Footer
   src/auth.tsx      Session state
 data/         NOT IN GIT — the database and product images
-output/       harness.md, the running build notes
+output/       harness.md, design.md, usability.md, app_check.html, audit_trail.json
 AI_prompts.md The prompt log for this assignment
 ```
 
@@ -40,8 +43,7 @@ The backend reports whether it can see the database at `/api/health`.
 
 ## Configuration
 
-The agent calls its model through Portkey. Copy `backend/.env.example` to
-`backend/.env` and fill in:
+The agent calls its model through Portkey. Copy `.env.example` to `backend/.env` and fill in:
 
 ```
 SESSION_SECRET=<python3 -c "import secrets; print(secrets.token_hex(32))">
@@ -61,7 +63,7 @@ Backend, from the `backend/` folder:
 ```bash
 cd backend
 python3 -m venv .venv
-./.venv/bin/pip install -r requirements.txt
+./.venv/bin/pip install -r ../requirements.txt
 ./.venv/bin/uvicorn main:app --reload --port 8000
 ```
 
