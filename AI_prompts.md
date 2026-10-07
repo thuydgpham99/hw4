@@ -119,6 +119,18 @@ What was lacking after the first prompt: the first pass reported the port-8000 c
 **Prompt 1:**
 > Problem 10: style the website. Add creative design so the site feels like a real campus customs storefront – fonts, color, hierarchy, motion, product presentation, chat feel. I will get more points for imaginative and innovative design so be CREATIVE!!! Write output/design.md: what you changed and why it should help customers stick around and buy. Keep it concrete and short.
 
-**Follow-up:** _None yet._
+**Follow-up:**
+> yes, and fix this too One catch worth flagging. My screenshot tab is backgrounded, which means IntersectionObserver never fires — and I found the entire 102-item grid sitting at opacity: 0. An invisible shop. The reveal now fails open with a 1.2s fallback timer, so the worst case is a missed fade, never missing merchandise. Verified: all 102 cards at opacity 1 with the tab still hidden.
+
+What was lacking after the first prompt: the scroll-reveal animation shipped with only a 1.2-second timeout as its safety net, which still left above-the-fold products invisible for over a second, so a follow-up was needed to make the reveal structurally fail-open — checking the viewport before paint, starting visible when the tab is hidden or motion is reduced, and listening for visibility changes — rather than relying on a timer. The same prompt also approved initialising git and making the first commit.
+
+---
+
+## Problem 11
+
+**Prompt 1:**
+> ready to move to 11? i have follow up why ai_promps.md is not udpated
+
+What was lacking: Problem 10's follow-up prompt had not been added to this log before the git commit was made, so the log was one prompt behind the work it was supposed to record.
 
 ---
