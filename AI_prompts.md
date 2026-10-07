@@ -137,3 +137,12 @@ What was lacking after the first prompt: the scroll-reveal animation shipped wit
 What was lacking before this problem: Problem 10's follow-up prompt had not been added to this log before the first git commit was made, so the log was one prompt behind the work it recorded — the follow-up prompted the fix and this section.
 
 ---
+
+## Problem 12: Audit trail, safety, finish harness
+
+**Prompt 1:**
+> Problem 12: audit trail, safety, finish harness. Keep an append-only output/audit_trail.json of agent-loop activity (time, tool name, short args/result, stop reason). Do no wipe it between runs. Also, think of some safety rules to give the agent and put them in prompts/prompt.md. finish output/harness.md so it is clear how the system works. 1. Model fields in models.py and why you chose them, 2. Tools and abilities, 3. Safety rules, 4. Specs (loop limits, result caps, models, how to run front + back).
+
+**Follow-up:** _None yet._
+
+---

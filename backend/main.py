@@ -24,6 +24,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
 import agent as agent_module  # noqa: E402
+import audit  # noqa: E402
 import auth  # noqa: E402
 from models import ChatReply, ChatRequest  # noqa: E402
 from db import (  # noqa: E402
@@ -276,6 +277,7 @@ async def chat(
             history,
             user=user,
             current_product_id=request.current_product_id,
+            conversation_id=conversation_id,
         )
     except Exception as exc:  # noqa: BLE001
         # A model or network failure should degrade to an honest message rather

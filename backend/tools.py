@@ -48,6 +48,10 @@ class ShopDeps:
     current_product_id: str | None = None
     current_product_name: str | None = None
 
+    # --- Audit / loop accounting ---------------------------------------------
+    conversation_id: str | None = None
+    tool_calls: int = 0
+
     # --- What the agent surfaced ---------------------------------------------
     surfaced: list[dict] = field(default_factory=list)
     _seen: set[str] = field(default_factory=set)

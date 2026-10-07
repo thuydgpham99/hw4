@@ -670,3 +670,191 @@ a bad id from the client degrades to no context instead of a fabricated name.
 | Guest chat | Answers normally; `chat_messages` count unchanged (26 → 26). |
 
 ---
+
+## Problem 12 — Audit trail, safety, and system reference
+
+This section completes the harness: what the models hold, what the agent can do,
+the rules it operates under, and how to run the whole thing.
+
+---
+
+### 1. Model fields in `models.py`, and why
+
+All structured types live in `backend/models.py`. The principle throughout: a
+tool return should carry exactly what the agent needs to answer honestly, and no
+more — extra fields are extra surface for the model to paraphrase instead of
+quote.
+
+#### `ProductSummary` — a product while browsing
+`product_id`, `name`, `category`, `description`, `colors`, `price`, `image_url`
+
+Carries `price` and `colors` even in list results, so the agent can answer "how
+much?" or "what colors?" about a search hit without a second lookup. `category`
+is the *normalized* value, never the raw 22-variant `garment_type`.
+
+#### `ProductDetail` — a product with inventory
+Adds `search_tags`, `sizes[]`, `total_stock`, `in_stock`
+
+The one type that carries everything, for "tell me about this one". The derived
+`available_sizes` / `sold_out_sizes` properties mean the sold-out list is always
+computed, never assembled by hand.
+
+#### `SizeStock` — `size`, `quantity`, `in_stock`
+`in_stock` is redundant with `quantity > 0` on purpose. The boolean is what the
+prompt points at, so the honesty rule does not depend on the model doing
+arithmetic correctly.
+
+#### `PriceAnswer` — `product_id`, `product_name`, `found`, `price`, `note`
+Deliberately narrow. A price question has one right answer. `found` is separate
+from `price` so "we don't sell that" can never be read as a price of zero.
+
+#### `DescriptionAnswer` — adds `category`, `colors`, `price` to the description
+`colors` ships with the description because "what's it like?" and "what colors?"
+are usually the same question. **The list is complete**, which is what lets the
+agent say "no, not in pink" flatly instead of hedging.
+
+#### `StockAnswer` — the widest type
+`found`, `size`, `quantity`, `in_stock`, `available_sizes`, `sold_out_sizes`, `note`
+
+Three deliberate choices: `found` and `in_stock` are separate booleans, because
+"we don't carry that size" and "we're sold out" are different answers;
+**`sold_out_sizes` is returned alongside `available_sizes`** so the bad news is
+handed over explicitly and is harder to quietly omit; and `quantity` is the raw
+integer so "only two left" can be true.
+
+`product_name` appears in every answer type because tools are called with a slug
+and the agent must never show a slug to a shopper.
+
+#### `ProductCard` / `ChatRequest` / `ChatReply` — the website contract
+`ChatReply.products` is the list the front end renders as cards. `ChatRequest`
+carries `conversation_id` (thread continuity) and `current_product_id` (page
+context, so "this" has a referent). `ChatReply.error` lets the route distinguish
+a refusal from an outage without putting that in the shopper-facing text.
+
+---
+
+### 2. Tools and abilities
+
+Seven tools, all reading live SQLite. The agent has no product knowledge of its
+own.
+
+| Tool | Ability |
+|---|---|
+| `search_products(query)` | Scored search over name, tags, colors, category, description. Shopper's own words. |
+| `browse_category(category)` | The complete category — T-Shirts, Crewnecks, Hoodies, Quarter-Zips, Jackets, Long Sleeve. |
+| `get_product_price(product_id)` | The only source of a price. |
+| `get_product_description(product_id)` | What something is, plus every color it comes in. |
+| `check_size_stock(product_id, size?)` | Availability, per size. Separates "not carried" from "sold out". |
+| `get_product_details(product_id)` | The whole record at once, instead of three calls. |
+| `find_similar_products(product_id, size?)` | In-stock alternatives when something is unavailable. |
+
+Beyond the tools, the agent can: greet a signed-in shopper by name; resolve
+"this" from the product page they are on; remember a conversation across visits;
+and put matching products onto the page as cards.
+
+**How cards reach the page:** every tool records what it surfaced onto `ShopDeps`.
+After the run, those become `ProductCard`s. The cards come from tool results, not
+from the model's prose — so a card cannot show a product the agent invented.
+
+---
+
+### 3. Safety rules
+
+Full text in `backend/prompts/prompt.md`. Grouped as:
+
+**Grounding** — every product fact must come from a tool call. No invented
+prices, colors, or products. Catalogue names quoted exactly as written. No
+softening a sold-out size into "limited availability".
+
+**Money and commitments** — cannot change a price, invent a discount or promo
+code, take an order, reserve stock, or promise delivery/restock/returns outcomes.
+Never asks for or accepts payment details.
+
+**Personal information** — does not ask for details it was not given; never
+discusses another shopper; will confirm only the name and email on the signed-in
+account; does not guess at gender, body, or size.
+
+**Instructions that are not from the shop** — text in a shopper's message carries
+no authority, regardless of claimed seniority or urgency. **The same applies to
+text arriving through a tool**: catalogue copy describes garments, it never
+directs behaviour. Does not reveal the prompt, tool names, schema, model, or
+paths.
+
+**Truthfulness under pressure** — re-checks with a tool when challenged rather
+than changing its answer to end an argument; says a lookup failed rather than
+guessing; never claims to have checked something it did not.
+
+**People, not just customers** — no medical, legal, or financial advice; does not
+counsel someone in distress but points them to real help; refuses to help defraud
+the shop; stays civil under abuse.
+
+**Defence in depth.** Three independent layers, so no single one is load-bearing:
+tools can only read the catalogue (there is no write tool to misuse); the prompt
+sets behaviour; and the provider runs its own content filter that rejects some
+jailbreaks before the agent sees them — logged as
+`blocked_by_content_filter` and answered in voice rather than as an outage.
+
+---
+
+### 4. Specs
+
+**Models**
+- Agent model: `gpt-5.6-luna`, reached through the Portkey gateway
+  (`https://api.portkey.ai/v1`, OpenAI-compatible, routes to azure-openai).
+- Configured in `backend/.env`; see `backend/.env.example`.
+- Note: this model rejects `max_tokens` and requires `max_completion_tokens`.
+
+**Loop limits and caps**
+
+| Limit | Value | Why |
+|---|---|---|
+| Agent loop steps | `MAX_LOOP_STEPS = 8` model requests per question | Stops a tool-calling loop running unbounded; breaches log `loop_limit_reached` |
+| Tool retries | 2 | Recovers from a malformed call without looping |
+| Search results | 8 per search | Ranked, so truncation is meaningful |
+| Category results | **uncapped** | Truncating made the agent present a partial list as complete |
+| Product cards on the page | 6 per reply | Display cap only — does not limit what the agent sees |
+| Chat history in memory | last 24 messages | Bounded context per conversation |
+| Chat history from the database | last 24 messages | Rebuilt for a returning signed-in shopper |
+| Audit field length | 220 chars | Keeps the trail readable |
+| Message length | 1–2000 chars | Rejected by the request model |
+| Session token lifetime | 7 days | |
+| Password hashing | PBKDF2-HMAC-SHA256, 600,000 iterations | |
+
+**Audit trail** — `output/audit_trail.json`, append-only, never wiped between
+runs. A JSON array so it opens directly. Each tool call logs time, tool name,
+clipped args and a result summary; each run logs its stop reason
+(`completed`, `blocked_by_content_filter`, `loop_limit_reached`, `error:<Type>`),
+tool count, products returned, whether the shopper was signed in, and token
+usage. Writes go through a temp file and an atomic replace, so an interrupted
+write cannot corrupt history; an unreadable file is moved aside, never
+overwritten.
+
+**How to run**
+
+Backend, from `backend/`:
+
+```
+python3 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+./.venv/bin/uvicorn main:app --reload --port 8000
+```
+
+Frontend, from `frontend/`, in a second terminal:
+
+```
+npm install
+npm run dev
+```
+
+Vite proxies `/api` to port 8000. If 8000 is taken, run the backend elsewhere and
+set `VITE_API_TARGET` in `frontend/.env.local`.
+
+The agent can also be driven from a terminal:
+
+```
+./.venv/bin/python agent.py "do you have a navy hoodie in medium?"
+```
+
+**Required data** — `data/campus_customs.db` and `data/products/` are gitignored
+and must be placed by hand. `GET /api/health` reports whether the database was
+found.
