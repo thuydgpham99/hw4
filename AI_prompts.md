@@ -126,11 +126,14 @@ What was lacking after the first prompt: the scroll-reveal animation shipped wit
 
 ---
 
-## Problem 11
+## Problem 11: Site testing (app check)
 
 **Prompt 1:**
+> Problem 11: site testing (app check). Test the live site and document it in output/app_check.html (a page you can double-click open). Include clear screenshots and short captions for: 1. Chat checking the inventory level of an item (hones stock/price from the DB). 2. The dynamic search-result cards appearing after a category questions (e.g. hobbies). 3. One of the usability features you added in problem 9. Then make HTML easy to grade: heading for each check, screenshot, one or two sentences on what the screenshot proves. Put the screenshot image files in output/app_check_images/ and link them from app_check.html with relative paths (for example app_check_images/inventory.png).
+
+**Follow-up:**
 > ready to move to 11? i have follow up why ai_promps.md is not udpated
 
-What was lacking: Problem 10's follow-up prompt had not been added to this log before the git commit was made, so the log was one prompt behind the work it was supposed to record.
+What was lacking before this problem: Problem 10's follow-up prompt had not been added to this log before the first git commit was made, so the log was one prompt behind the work it recorded — the follow-up prompted the fix and this section.
 
 ---

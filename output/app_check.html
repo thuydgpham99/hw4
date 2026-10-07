@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campus Customs — App Check</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yale-blue: #00356b;
+        --yale-blue-dark: #00264d;
+        --sand: #f4a81d;
+        --ink: #14202e;
+        --ink-soft: #4a5a6d;
+        --ink-faint: #7b8a9c;
+        --border: #dfe6ef;
+        --surface-alt: #f7f9fc;
+        --pass: #1a7f4b;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        color: var(--ink);
+        line-height: 1.65;
+        background: #fff;
+      }
+      header {
+        background: linear-gradient(135deg, var(--yale-blue), var(--yale-blue-dark));
+        color: #fff;
+        padding: 3rem 1.5rem 2.5rem;
+        text-align: center;
+        border-bottom: 4px solid var(--sand);
+      }
+      header h1 {
+        font-family: 'Anton', sans-serif;
+        text-transform: uppercase;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        margin: 0 0 0.5rem;
+        letter-spacing: 0.02em;
+      }
+      header p { margin: 0; color: rgba(255,255,255,0.85); }
+      .meta {
+        margin-top: 1.2rem;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.7);
+      }
+      main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+      section {
+        margin-bottom: 3.5rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--border);
+      }
+      section:last-child { border-bottom: none; }
+      h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        color: var(--yale-blue);
+        font-size: 1.7rem;
+        margin: 0 0 0.3rem;
+      }
+      .check-num {
+        display: inline-block;
+        font-family: 'Anton', sans-serif;
+        background: var(--yale-blue);
+        color: #fff;
+        width: 34px; height: 34px;
+        line-height: 34px;
+        text-align: center;
+        border-radius: 50%;
+        margin-right: 0.6rem;
+        font-size: 1.05rem;
+      }
+      .asked {
+        background: var(--surface-alt);
+        border-left: 3px solid var(--sand);
+        padding: 0.7rem 1rem;
+        margin: 1rem 0 1.4rem;
+        font-size: 0.93rem;
+        color: var(--ink-soft);
+      }
+      .asked strong { color: var(--yale-blue); }
+      figure { margin: 0 0 1.2rem; }
+      img {
+        width: 100%;
+        display: block;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0,53,107,0.10);
+      }
+      figcaption {
+        margin-top: 0.7rem;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+      }
+      .proves {
+        background: #f2f9f5;
+        border: 1px solid #cfe8da;
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        margin-top: 1.2rem;
+        font-size: 0.94rem;
+      }
+      .proves b { color: var(--pass); }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 0.9rem;
+        font-size: 0.88rem;
+      }
+      th, td {
+        text-align: left;
+        padding: 0.45rem 0.7rem;
+        border-bottom: 1px solid var(--border);
+      }
+      th { color: var(--ink-faint); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; }
+      code {
+        background: var(--surface-alt);
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+        font-size: 0.86em;
+      }
+      .match { color: var(--pass); font-weight: 600; }
+      footer {
+        background: var(--yale-blue-dark);
+        color: rgba(255,255,255,0.75);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        font-size: 0.86rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Campus Customs — App Check</h1>
+      <p>Three checks run against the running site, with screenshots.</p>
+      <div class="meta">
+        Frontend: Vite dev server &middot; Backend: <code style="color:#fff">uvicorn main:app --port 8000</code>
+        &middot; Captured 7 October 2026
+      </div>
+    </header>
+
+    <main>
+      <!-- ================= CHECK 1 ================= -->
+      <section>
+        <h2><span class="check-num">1</span>Chat checks real inventory and price</h2>
+
+        <div class="asked">
+          <strong>Asked the assistant:</strong> “How many Baseball Left Chest
+          Crewnecks are left in each size, and what does it cost?”
+        </div>
+
+        <figure>
+          <img src="app_check_images/inventory.png" alt="Chat panel showing per-size stock counts for the Baseball Left Chest Crewneck, over the product page showing the same figures" />
+          <figcaption>
+            The assistant's reply, captured on the product page for the same item.
+          </figcaption>
+        </figure>
+
+        <p>
+          The assistant returned a per-size breakdown and the price, and said
+          plainly that XS and XL are <em>out of stock</em> rather than softening
+          it. It then offered the Davenport College Crewneck, which is in stock in
+          those two sizes, at the same $58.
+        </p>
+
+        <div class="proves">
+          <b>What this proves:</b> the numbers come from the database, not the
+          model. The product page behind the chat panel independently shows
+          <code>$58</code>, “In stock in 4 of 6 sizes”, <code>XS — Out of stock</code>
+          and <code>S — 15 left</code>. Chat and page agree in a single frame.
+        </div>
+
+        <table>
+          <tr><th>Field</th><th>Agent said</th><th>Database</th><th>Match</th></tr>
+          <tr><td>Price</td><td>$58</td><td>58.0</td><td class="match">✓</td></tr>
+          <tr><td>XS</td><td>out of stock</td><td>0</td><td class="match">✓</td></tr>
+          <tr><td>S</td><td>15</td><td>15</td><td class="match">✓</td></tr>
+          <tr><td>M</td><td>5</td><td>5</td><td class="match">✓</td></tr>
+          <tr><td>L</td><td>25</td><td>25</td><td class="match">✓</td></tr>
+          <tr><td>XL</td><td>out of stock</td><td>0</td><td class="match">✓</td></tr>
+          <tr><td>XXL</td><td>25</td><td>25</td><td class="match">✓</td></tr>
+        </table>
+      </section>
+
+      <!-- ================= CHECK 2 ================= -->
+      <section>
+        <h2><span class="check-num">2</span>A category question fills the page with product cards</h2>
+
+        <div class="asked">
+          <strong>Asked the assistant:</strong> “What hoodies do you have?”
+        </div>
+
+        <figure>
+          <img src="app_check_images/chat_cards.png" alt="Home page showing a Picked out for you band with six hoodie product cards after a chat question" />
+          <figcaption>
+            Asking in the chat dropped a “Picked out for you” band onto the page itself.
+          </figcaption>
+        </figure>
+
+        <p>
+          The band reads <strong>“6 matches for ‘What hoodies do you have?’”</strong>
+          and renders full product cards — image, category, name, description and
+          price — on the website, not only inside the chat widget. The same matches
+          also appear as compact cards in the panel.
+        </p>
+
+        <div class="proves">
+          <b>What this proves:</b> the agent returns structured product data, which
+          the front end renders. The cards are built from the agent's tool results,
+          so a card cannot show a product the agent invented. Every card here is a
+          real hoodie at its catalogue price — $68 and $88 — and each one opens its
+          full detail page when clicked, exactly like a card from the catalogue grid.
+        </div>
+      </section>
+
+      <!-- ================= CHECK 3 ================= -->
+      <section>
+        <h2><span class="check-num">3</span>Usability feature: filter the catalogue by your size</h2>
+
+        <div class="asked">
+          <strong>Action:</strong> on the Products page, clicked the
+          <strong>XL</strong> chip under “My size”.
+        </div>
+
+        <figure>
+          <img src="app_check_images/filter_after.png" alt="Products page filtered to XL, showing 77 of 102 items in stock in XL" />
+          <figcaption>
+            The catalogue filtered to items actually available in XL.
+          </figcaption>
+        </figure>
+
+        <p>
+          The result line reads <strong>“Showing 77 of 102 items &middot; in stock in XL”</strong>.
+          The filter is evaluated against live inventory on the backend, so it hides
+          anything that exists in XL but has none left.
+        </p>
+
+        <div class="proves">
+          <b>What this proves:</b> the usability improvement is live and it matters —
+          <b>25 of the 102 products</b> are dead ends for an XL shopper. Before this
+          filter, the only way to discover that was to open products one at a time.
+          This is one of the two front-end improvements from Problem 9; the others
+          are the Markdown-formatted chat replies visible in check 1 (bold prices
+          and a real bullet list, no raw asterisks) and, on the backend, the
+          in-stock alternatives the assistant offered in check 1.
+        </div>
+
+        <figure style="margin-top:1.6rem">
+          <img src="app_check_images/filter_before.png" alt="Products page unfiltered, showing all 102 items" />
+          <figcaption>
+            For comparison: the same page unfiltered, showing all 102 items.
+          </figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      Campus Customs &middot; 57 Broadway, New Haven, CT &middot; Officially Licensed Yale Merchandise
+    </footer>
+  </body>
+</html>
