@@ -34,3 +34,6 @@ yarn-error.log*
 .idea/
 .vscode/
 *.swp
+
+# Local editor/tooling config, not part of the deliverable
+.claude/
